@@ -22,18 +22,21 @@ body {
   color: #ff4d88;
 }
 
+/* карточка */
 .card {
   padding: 30px;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.85);
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
+/* заголовок */
 h1 {
   font-size: 26px;
   margin-bottom: 20px;
 }
 
+/* поля */
 select, input {
   padding: 10px;
   margin: 10px;
@@ -42,6 +45,7 @@ select, input {
   outline: none;
 }
 
+/* кнопка */
 button {
   margin-top: 20px;
   padding: 12px 25px;
@@ -58,7 +62,15 @@ button:hover {
   transform: scale(1.05);
 }
 
-/* 🤍 БЕЛЫЕ СЕРДЕЧКИ */
+/* результат */
+#result {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #ff4d88;
+  font-weight: bold;
+}
+
+/* 🤍 сердечки */
 .heart {
   position: absolute;
   color: white;
@@ -73,7 +85,7 @@ button:hover {
   100% {transform: translateY(-10vh); opacity: 0;}
 }
 
-/* 🌸 ЦВЕТОЧКИ */
+/* 🌸 цветочки */
 .flower {
   position: absolute;
   font-size: 20px;
@@ -98,7 +110,7 @@ setInterval(() => {
   flower.className = "flower";
   flower.innerHTML = "🌸";
   flower.style.left = Math.random() * 100 + "vw";
-  flower.style.fontSize = (15 + Math.random()*20) + "px";
+  flower.style.fontSize = (15 + Math.random() * 20) + "px";
   document.body.appendChild(flower);
 
   setTimeout(() => flower.remove(), 10000);
@@ -124,7 +136,7 @@ setInterval(() => {
 
     <h1>Ты пойдёшь со мной на свидание? 💗</h1>
 
-    <select>
+    <select id="date">
       <option>26</option>
       <option>27</option>
       <option>28</option>
@@ -133,11 +145,13 @@ setInterval(() => {
     <br>
 
     <label>Время (13:00 – 22:00)</label><br>
-    <input type="time" min="13:00" max="22:00" value="18:00">
+    <input id="time" type="time" min="13:00" max="22:00" value="18:00">
 
     <br>
 
-    <button onclick="alert('Я жду тебя ❤️')">Да ❤️</button>
+    <button onclick="sendAnswer()">Да 💓</button>
+
+    <div id="result"></div>
 
   </div>
 </div>
@@ -146,6 +160,18 @@ setInterval(() => {
 <audio autoplay loop>
   <source src="brent.mp3" type="audio/mpeg">
 </audio>
+
+<script>
+function sendAnswer() {
+  const date = document.getElementById("date").value;
+  const time = document.getElementById("time").value;
+
+  document.getElementById("result").innerHTML =
+    "💗 Она выбрала: " + date + " число<br>" +
+    "⏰ Время: " + time + "<br><br>" +
+    "бейбигерл, буду ждать вас 🤍";
+}
+</script>
 
 </body>
 </html>
