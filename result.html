@@ -35,12 +35,45 @@ h1{
 
 <div class="card">
   <h1>бейбигерл буду ждать вас 🤍</h1>
-  <p>
-    📅 <script>document.write(localStorage.getItem("day"))</script><br>
-    ⏰ <script>document.write(localStorage.getItem("time"))</script><br>
-    🍽️ <script>document.write(localStorage.getItem("place"))</script>
-  </p>
+  <p id="info"></p>
 </div>
+
+<script>
+const day = localStorage.getItem("day") || "не выбрано";
+const time = localStorage.getItem("time") || "не выбрано";
+const place = localStorage.getItem("place") || "не выбрано";
+
+document.getElementById("info").innerHTML =
+`📅 ${day}<br>⏰ ${time}<br>🍽️ ${place}`;
+
+/* ===== TELEGRAM SEND ===== */
+
+function sendTelegram(){
+
+  const token = "ТВОЙ_ТОКЕН";   // <-- вставь сюда токен
+  const chat_id = "610311783";
+
+  const text =
+`💌 Новое свидание!
+📅 Дата: ${day}
+⏰ Время: ${time}
+🍽️ Место: ${place}`;
+
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      chat_id: chat_id,
+      text: text
+    })
+  });
+}
+
+/* отправка при открытии страницы */
+sendTelegram();
+</script>
 
 </body>
 </html>
