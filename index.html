@@ -10,28 +10,30 @@ body {
   font-family: Arial, sans-serif;
   background: linear-gradient(135deg, #ffd6e8, #ffeaf3);
   overflow: hidden;
+}
+
+/* центр */
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
   text-align: center;
   color: #ff4d88;
 }
 
-/* карточка */
 .card {
-  margin-top: 80px;
-  display: inline-block;
   padding: 30px;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.8);
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  backdrop-filter: blur(5px);
 }
 
-/* заголовок */
 h1 {
-  font-size: 28px;
+  font-size: 26px;
   margin-bottom: 20px;
 }
 
-/* элементы */
 select, input {
   padding: 10px;
   margin: 10px;
@@ -40,7 +42,6 @@ select, input {
   outline: none;
 }
 
-/* кнопка */
 button {
   margin-top: 20px;
   padding: 12px 25px;
@@ -55,15 +56,15 @@ button {
 
 button:hover {
   transform: scale(1.05);
-  background: #ff2f74;
 }
 
-/* сердечки */
+/* 🤍 БЕЛЫЕ СЕРДЕЧКИ */
 .heart {
   position: absolute;
   color: white;
   font-size: 18px;
   animation: float 6s linear infinite;
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
 }
 
 @keyframes float {
@@ -71,39 +72,40 @@ button:hover {
   20% {opacity: 1;}
   100% {transform: translateY(-10vh); opacity: 0;}
 }
+
+/* 🌸 ЦВЕТОЧКИ */
+.flower {
+  position: absolute;
+  font-size: 20px;
+  color: #ff69b4;
+  animation: fall 10s linear infinite;
+}
+
+@keyframes fall {
+  0% {transform: translateY(-10vh); opacity: 0;}
+  20% {opacity: 1;}
+  100% {transform: translateY(110vh); opacity: 0;}
+}
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<!-- 🌸 цветочки -->
+<script>
+setInterval(() => {
+  const flower = document.createElement("div");
+  flower.className = "flower";
+  flower.innerHTML = "🌸";
+  flower.style.left = Math.random() * 100 + "vw";
+  flower.style.fontSize = (15 + Math.random()*20) + "px";
+  document.body.appendChild(flower);
 
-<h1>Ты пойдёшь со мной на свидание? 💗</h1>
+  setTimeout(() => flower.remove(), 10000);
+}, 400);
+</script>
 
-<!-- дата -->
-<select>
-  <option>26</option>
-  <option>27</option>
-  <option>28</option>
-</select>
-
-<br>
-
-<!-- время -->
-<label>Время (13:00 – 22:00)</label><br>
-<input type="time" min="13:00" max="22:00" value="18:00">
-
-<br>
-
-<button onclick="alert('Я жду тебя ❤️')">Да ❤️</button>
-
-</div>
-
-<!-- музыка -->
-<audio autoplay loop>
-  <source src="brent.mp3" type="audio/mpeg">
-</audio>
-
+<!-- 🤍 сердечки -->
 <script>
 setInterval(() => {
   const heart = document.createElement("div");
@@ -113,8 +115,37 @@ setInterval(() => {
   document.body.appendChild(heart);
 
   setTimeout(() => heart.remove(), 6000);
-}, 300);
+}, 350);
 </script>
+
+<!-- контент -->
+<div class="container">
+  <div class="card">
+
+    <h1>Ты пойдёшь со мной на свидание? 💗</h1>
+
+    <select>
+      <option>26</option>
+      <option>27</option>
+      <option>28</option>
+    </select>
+
+    <br>
+
+    <label>Время (13:00 – 22:00)</label><br>
+    <input type="time" min="13:00" max="22:00" value="18:00">
+
+    <br>
+
+    <button onclick="alert('Я жду тебя ❤️')">Да ❤️</button>
+
+  </div>
+</div>
+
+<!-- музыка -->
+<audio autoplay loop>
+  <source src="brent.mp3" type="audio/mpeg">
+</audio>
 
 </body>
 </html>
