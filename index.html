@@ -18,6 +18,7 @@ body{
   left:50%;
   transform:translate(-50%,-50%);
   text-align:center;
+  color:#ff4d88;
 }
 
 .card{
@@ -28,7 +29,7 @@ body{
 
 h1{
   font-size:34px;
-  color:#ff4d88;
+  margin-bottom:20px;
 }
 
 button{
@@ -47,36 +48,28 @@ button{
 
 <div class="container">
   <div class="card">
-    <h1>💗 Ты пойдёшь со мной на свидание?</h1>
+    <h1>💗 Ты пойдёшь со мной на свидание? 💗</h1>
     <button onclick="location.href='place.html'">ДА 💓</button>
   </div>
 </div>
 
-<!-- 🎵 МУЗЫКА (ИСПРАВЛЕНО) -->
 <script>
-(function () {
-
-  if (!window.__music) {
-    window.__music = new Audio("brent.mp3");
-    window.__music.loop = true;
-    window.__music.volume = 1;
+(function(){
+  if(!window.music){
+    window.music = new Audio("brent.mp3");
+    window.music.loop = true;
+    window.music.volume = 1;
   }
 
-  const music = window.__music;
-
-  window.addEventListener("load", () => {
-    const saved = localStorage.getItem("music_started");
-
-    if (!saved) {
-      music.play().then(() => {
-        localStorage.setItem("music_started", "1");
-      }).catch(() => {});
-    } else {
-      music.play().catch(() => {});
-    }
+  window.addEventListener("load", ()=>{
+    window.music.play().catch(()=>{});
   });
-
 })();
+</script>
+<script>
+window.addEventListener("load", () => {
+  document.getElementById("music").play().catch(()=>{});
+});
 </script>
 
 </body>
