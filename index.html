@@ -42,11 +42,33 @@ button{
   color:white;
   cursor:pointer;
 }
+
+/* ===== FALLING ANIMATION ===== */
+.fall{
+  position:fixed;
+  top:-10px;
+  font-size:22px;
+  animation: fall linear infinite;
+  pointer-events:none;
+  z-index:1;
+}
+
+@keyframes fall{
+  0%{
+    transform:translateY(-10vh) rotate(0deg);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(110vh) rotate(360deg);
+    opacity:0;
+  }
+}
 </style>
 </head>
 
 <body>
 
+<!-- UI -->
 <div class="container">
   <div class="card">
     <h1>Ты пойдёшь со мной на свидание? 💗</h1>
@@ -58,6 +80,25 @@ button{
 function goNext(){
   location.href="place.html";
 }
+
+/* ===== FALLING HEARTS & FLOWERS ===== */
+function createItem(){
+  const el = document.createElement("div");
+  el.classList.add("fall");
+
+  const items = ["🤍","🌸","🤍","🌸","💮"];
+  el.innerText = items[Math.floor(Math.random()*items.length)];
+
+  el.style.left = Math.random()*100 + "vw";
+  el.style.animationDuration = (3 + Math.random()*5) + "s";
+  el.style.fontSize = (16 + Math.random()*18) + "px";
+
+  document.body.appendChild(el);
+
+  setTimeout(()=>el.remove(), 8000);
+}
+
+setInterval(createItem, 200);
 </script>
 
 </body>
