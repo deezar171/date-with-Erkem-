@@ -8,26 +8,35 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #ffd6e8;
+  background: linear-gradient(135deg, #ffd6e8, #ffeaf3);
   overflow: hidden;
   text-align: center;
-  color: white;
+  color: #ff4d88;
 }
 
-/* Заголовок */
-h1 {
+/* карточка */
+.card {
   margin-top: 80px;
-  font-size: 32px;
-  animation: fade 2s ease-in;
+  display: inline-block;
+  padding: 30px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  backdrop-filter: blur(5px);
 }
 
-/* элементы выбора */
+/* заголовок */
+h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* элементы */
 select, input {
-  margin-top: 15px;
   padding: 10px;
+  margin: 10px;
   border-radius: 12px;
   border: none;
-  font-size: 16px;
   outline: none;
 }
 
@@ -35,24 +44,18 @@ select, input {
 button {
   margin-top: 20px;
   padding: 12px 25px;
-  border-radius: 15px;
+  border-radius: 20px;
   border: none;
-  background: white;
-  color: #ff69b4;
-  font-size: 18px;
-  font-weight: bold;
+  background: #ff4d88;
+  color: white;
+  font-size: 16px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.3s;
 }
 
 button:hover {
   transform: scale(1.05);
-}
-
-/* плавное появление */
-@keyframes fade {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  background: #ff2f74;
 }
 
 /* сердечки */
@@ -68,42 +71,40 @@ button:hover {
   20% {opacity: 1;}
   100% {transform: translateY(-10vh); opacity: 0;}
 }
-
-/* блоки */
-label {
-  display: block;
-  margin-top: 20px;
-  font-size: 16px;
-}
 </style>
 </head>
 
 <body>
 
+<div class="card">
+
 <h1>Ты пойдёшь со мной на свидание? 💗</h1>
 
-<!-- ДАТЫ -->
+<!-- дата -->
 <select>
   <option>26</option>
   <option>27</option>
   <option>28</option>
 </select>
 
-<!-- ВРЕМЯ -->
-<label>Выбери время (13:00 – 22:00)</label>
+<br>
 
+<!-- время -->
+<label>Время (13:00 – 22:00)</label><br>
 <input type="time" min="13:00" max="22:00" value="18:00">
 
-<!-- КНОПКА -->
+<br>
+
 <button onclick="alert('Я жду тебя ❤️')">Да ❤️</button>
 
-<!-- МУЗЫКА -->
+</div>
+
+<!-- музыка -->
 <audio autoplay loop>
   <source src="brent.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// белые сердечки
 setInterval(() => {
   const heart = document.createElement("div");
   heart.className = "heart";
@@ -112,7 +113,7 @@ setInterval(() => {
   document.body.appendChild(heart);
 
   setTimeout(() => heart.remove(), 6000);
-}, 350);
+}, 300);
 </script>
 
 </body>
