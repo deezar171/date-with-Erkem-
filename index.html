@@ -12,6 +12,7 @@ body {
   overflow: hidden;
 }
 
+/* центр */
 .container {
   position: absolute;
   top: 50%;
@@ -50,6 +51,7 @@ button {
   color: white;
   font-size: 16px;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 button:hover {
@@ -62,7 +64,7 @@ button:hover {
   color: #ff4d88;
 }
 
-/* сердечки */
+/* 🤍 сердечки */
 .heart {
   position: absolute;
   color: white;
@@ -76,7 +78,7 @@ button:hover {
   100% {transform: translateY(-10vh); opacity: 0;}
 }
 
-/* цветочки */
+/* 🌸 цветочки */
 .flower {
   position: absolute;
   font-size: 20px;
@@ -89,10 +91,40 @@ button:hover {
   20% {opacity: 1;}
   100% {transform: translateY(110vh); opacity: 0;}
 }
+
+/* музыка скрытая */
+audio {
+  display: none;
+}
 </style>
 </head>
 
 <body>
+
+<!-- 🌸 цветочки -->
+<script>
+setInterval(() => {
+  const flower = document.createElement("div");
+  flower.className = "flower";
+  flower.innerHTML = "🌸";
+  flower.style.left = Math.random() * 100 + "vw";
+  flower.style.fontSize = (15 + Math.random() * 20) + "px";
+  document.body.appendChild(flower);
+  setTimeout(() => flower.remove(), 10000);
+}, 400);
+</script>
+
+<!-- 🤍 сердечки -->
+<script>
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "🤍";
+  heart.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}, 350);
+</script>
 
 <div class="container">
   <div class="card">
@@ -119,6 +151,11 @@ button:hover {
   </div>
 </div>
 
+<!-- 🎵 МУЗЫКА -->
+<audio autoplay loop>
+  <source src="brent.mp3" type="audio/mpeg">
+</audio>
+
 <script>
 function sendAnswer() {
   const date = document.getElementById("date").value;
@@ -130,11 +167,9 @@ function sendAnswer() {
     "⏰ Время: " + time + "\n\n" +
     "бейбигерл, буду ждать вас 🤍";
 
-  fetch("https://api.telegram.org/bot7949849167:AAHXQGrqZsH2QJvMWroHpk5_SZnhWXeK6TQsendMessage", {
+  fetch("https://api.telegram.org/botYOUR_TOKEN/sendMessage", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       chat_id: 610311783,
       text: text
