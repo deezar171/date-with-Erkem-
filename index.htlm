@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Invitation</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #ffd6e8;
+  overflow: hidden;
+  text-align: center;
+  color: white;
+}
+
+h1 {
+  margin-top: 80px;
+  font-size: 32px;
+  animation: fade 2s ease-in;
+}
+
+select, input, button {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+}
+
+button {
+  background: white;
+  color: #ff69b4;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+@keyframes fade {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+/* белые сердечки */
+.heart {
+  position: absolute;
+  color: white;
+  animation: float 6s infinite;
+  font-size: 18px;
+}
+
+@keyframes float {
+  0% {transform: translateY(100vh); opacity: 0;}
+  50% {opacity: 1;}
+  100% {transform: translateY(-10vh); opacity: 0;}
+}
+</style>
+</head>
+
+<body>
+
+<h1>Ты пойдёшь со мной на свидание? 💗</h1>
+
+<!-- ДАТА -->
+<select>
+  <option>26</option>
+  <option>27</option>
+  <option>28</option>
+</select>
+
+<br>
+
+<!-- ВРЕМЯ -->
+<label style="display:block; margin-top:20px;">
+  Выбери время (13:00 – 22:00)
+</label>
+
+<input type="time" min="13:00" max="22:00" value="18:00">
+
+<br>
+
+<!-- КНОПКА -->
+<button onclick="alert('Я жду тебя ❤️')">Да ❤️</button>
+
+<!-- МУЗЫКА BRENT FAIYAZ -->
+<audio autoplay loop>
+  <source src="brent.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// белые сердечки
+setInterval(() => {
+  let heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "🤍";
+  heart.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 6000);
+}, 400);
+</script>
+
+</body>
+</html>
