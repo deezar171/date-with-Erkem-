@@ -90,6 +90,7 @@ button:hover {
   100% {transform: translateY(110vh); opacity: 0;}
 }
 
+/* музыка скрыта */
 audio {
   display: none;
 }
@@ -135,8 +136,8 @@ setInterval(() => {
 
     <br>
 
-    <label>Время (13:00 – 22:00)</label><br>
-    <input id="time" type="time" min="13:00" max="22:00" value="18:00">
+    <label>Время (13:00 – 23:00)</label><br>
+    <input id="time" type="time" min="13:00" max="23:00" value="18:00">
 
     <br>
 
@@ -147,16 +148,32 @@ setInterval(() => {
   </div>
 </div>
 
-<!-- 🎵 музыка -->
+<!-- 🎵 МУЗЫКА -->
 <audio id="music" loop>
   <source src="brent.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+window.addEventListener("load", () => {
+  const music = document.getElementById("music");
+
+  const playPromise = music.play();
+
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+      console.log("Автозапуск заблокирован браузером");
+    });
+  }
+});
+
 function sendAnswer() {
 
-  // 🎵 пробуем включить музыку (работает после клика)
+  // 🎵 всё равно запускаем при клике (100% работает)
   document.getElementById("music").play();
+
+  if (navigator.vibrate) {
+    navigator.vibrate([80, 50, 80, 300, 120]);
+  }
 
   const date = document.getElementById("date").value;
   const time = document.getElementById("time").value;
