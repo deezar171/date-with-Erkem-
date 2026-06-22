@@ -26,43 +26,32 @@ body{
 }
 
 h2{
-  font-size:28px;
+  font-size:24px;
+  margin-top:10px;
 }
 
+/* ===== DATE ===== */
 .calendar{
   display:grid;
   grid-template-columns:repeat(7,1fr);
   gap:6px;
-  margin-top:10px;
 }
 
 .day{
   padding:10px;
   border-radius:10px;
   background:#eee;
-  font-size:14px;
+  cursor:pointer;
+  transition:0.2s;
 }
 
-.active{
+.day.active{
   background:#ff4d88;
   color:white;
-  cursor:pointer;
+  transform:scale(1.1);
 }
 
-.disabled{
-  opacity:0.3;
-}
-
-.food{
-  margin:5px;
-  padding:10px;
-  border:none;
-  border-radius:10px;
-  background:#ff4d88;
-  color:white;
-  cursor:pointer;
-}
-
+/* ===== TIME ===== */
 .times{
   display:flex;
   flex-wrap:wrap;
@@ -71,12 +60,35 @@ h2{
 }
 
 .time-btn{
-  padding:8px 14px;
+  padding:10px 14px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   background:#ffb3cc;
   color:white;
   cursor:pointer;
+  transition:0.2s;
+}
+
+.time-btn.active{
+  background:#ff4d88;
+  transform:scale(1.15);
+}
+
+/* ===== FOOD ===== */
+.food{
+  margin:5px;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:#ff4d88;
+  color:white;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.food.active{
+  transform:scale(1.1);
+  box-shadow:0 0 10px rgba(255,77,136,0.5);
 }
 </style>
 </head>
@@ -85,83 +97,71 @@ h2{
 
 <div class="card">
 
-<h2>📅 Выбери дату</h2>
-
+<h2>📅 Дата</h2>
 <div class="calendar">
 <script>
 for(let i=1;i<=31;i++){
-  if([26,27,28,29].includes(i)){
-    document.write(`<div class='day active' onclick='setDay(${i})'>${i}</div>`);
-  } else {
-    document.write(`<div class='day disabled'>${i}</div>`);
-  }
+  document.write(`<div class='day' onclick='setDay(this,${i})'>${i}</div>`);
 }
 </script>
 </div>
 
-<h2>⏰ Выбери время</h2>
-
+<h2>⏰ Время</h2>
 <div class="times">
-  <button class="time-btn" onclick="setTime('15:00')">15:00</button>
-  <button class="time-btn" onclick="setTime('17:00')">17:00</button>
-  <button class="time-btn" onclick="setTime('19:00')">19:00</button>
-  <button class="time-btn" onclick="setTime('21:00')">21:00</button>
+  <button class="time-btn" onclick="setTime(this,'13:00')">13:00</button>
+  <button class="time-btn" onclick="setTime(this,'15:00')">15:00</button>
+  <button class="time-btn" onclick="setTime(this,'17:00')">17:00</button>
+  <button class="time-btn" onclick="setTime(this,'19:00')">19:00</button>
+  <button class="time-btn" onclick="setTime(this,'21:00')">21:00</button>
+  <button class="time-btn" onclick="setTime(this,'22:00')">22:00</button>
 </div>
 
-<h2>🍽️ Выбор</h2>
+<h2>🍽️ Еда</h2>
 
-<button class="food" onclick="choose('🍕 Пицца')">🍕 Пицца</button>
-<button class="food" onclick="choose('🍔 Бургер')">🍔 Бургер</button>
-<button class="food" onclick="choose('🍣 Суши')">🍣 Суши</button>
-<button class="food" onclick="choose('🍝 Паста')">🍝 Паста</button>
-<button class="food" onclick="choose('🍜 Рамен')">🍜 Рамен</button>
-<button class="food" onclick="choose('🏠 Ночёвка')">🏠 Ночёвка</button>
+<button class="food" onclick="setFood(this,'🍕 Пицца')">🍕 Пицца</button>
+<button class="food" onclick="setFood(this,'🍔 Бургер')">🍔 Бургер</button>
+<button class="food" onclick="setFood(this,'🍣 Суши')">🍣 Суши</button>
+<button class="food" onclick="setFood(this,'🍝 Паста')">🍝 Паста</button>
+<button class="food" onclick="setFood(this,'🍜 Рамен')">🍜 Рамен</button>
+<button class="food" onclick="setFood(this,'🏠 Ночёвка')">🏠 Ночёвка</button>
+
+<br><br>
+<button onclick="finish()">💗 Подтвердить</button>
 
 </div>
 
 <script>
-let day = 26;
-let selectedTime = "19:00";
+let day = 1;
+let time = "13:00";
+let food = "";
 
-function setDay(d){
+function setDay(el, d){
   day = d;
+
+  document.querySelectorAll(".day").forEach(x=>x.classList.remove("active"));
+  el.classList.add("active");
 }
 
-function setTime(t){
-  selectedTime = t;
+function setTime(el, t){
+  time = t;
+
+  document.querySelectorAll(".time-btn").forEach(x=>x.classList.remove("active"));
+  el.classList.add("active");
 }
 
-function choose(place){
+function setFood(el, f){
+  food = f;
+
+  document.querySelectorAll(".food").forEach(x=>x.classList.remove("active"));
+  el.classList.add("active");
+}
+
+function finish(){
   localStorage.setItem("day",day);
-  localStorage.setItem("time",selectedTime);
-  localStorage.setItem("place",place);
+  localStorage.setItem("time",time);
+  localStorage.setItem("place",food);
   location.href="result.html";
 }
-</script>
-
-<script>
-function createFalling(){
-  const item = document.createElement("div");
-  item.innerHTML = Math.random() > 0.5 ? "🤍" : "🌸";
-
-  item.style.position = "fixed";
-  item.style.left = Math.random()*100 + "vw";
-  item.style.top = "-30px";
-  item.style.fontSize = (18 + Math.random()*20) + "px";
-  item.style.pointerEvents = "none";
-  item.style.zIndex = "0";
-
-  document.body.appendChild(item);
-
-  setTimeout(()=>{
-    item.style.transform = "translateY(110vh)";
-    item.style.transition = "6s linear";
-  },50);
-
-  setTimeout(()=>item.remove(),6000);
-}
-
-setInterval(createFalling, 500);
 </script>
 
 </body>
