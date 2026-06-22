@@ -12,7 +12,6 @@ body {
   overflow: hidden;
 }
 
-/* центр */
 .container {
   position: absolute;
   top: 50%;
@@ -22,7 +21,6 @@ body {
   color: #ff4d88;
 }
 
-/* карточка */
 .card {
   padding: 30px;
   background: rgba(255,255,255,0.85);
@@ -30,13 +28,11 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* заголовок */
 h1 {
   font-size: 26px;
   margin-bottom: 20px;
 }
 
-/* поля */
 select, input {
   padding: 10px;
   margin: 10px;
@@ -45,7 +41,6 @@ select, input {
   outline: none;
 }
 
-/* кнопка */
 button {
   margin-top: 20px;
   padding: 12px 25px;
@@ -55,28 +50,24 @@ button {
   color: white;
   font-size: 16px;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 button:hover {
   transform: scale(1.05);
 }
 
-/* результат */
 #result {
   margin-top: 15px;
-  font-size: 16px;
-  color: #ff4d88;
   font-weight: bold;
+  color: #ff4d88;
 }
 
-/* 🤍 сердечки */
+/* сердечки */
 .heart {
   position: absolute;
   color: white;
   font-size: 18px;
   animation: float 6s linear infinite;
-  text-shadow: 0 0 10px rgba(255,255,255,0.8);
 }
 
 @keyframes float {
@@ -85,7 +76,7 @@ button:hover {
   100% {transform: translateY(-10vh); opacity: 0;}
 }
 
-/* 🌸 цветочки */
+/* цветочки */
 .flower {
   position: absolute;
   font-size: 20px;
@@ -103,34 +94,6 @@ button:hover {
 
 <body>
 
-<!-- 🌸 цветочки -->
-<script>
-setInterval(() => {
-  const flower = document.createElement("div");
-  flower.className = "flower";
-  flower.innerHTML = "🌸";
-  flower.style.left = Math.random() * 100 + "vw";
-  flower.style.fontSize = (15 + Math.random() * 20) + "px";
-  document.body.appendChild(flower);
-
-  setTimeout(() => flower.remove(), 10000);
-}, 400);
-</script>
-
-<!-- 🤍 сердечки -->
-<script>
-setInterval(() => {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = "🤍";
-  heart.style.left = Math.random() * 100 + "vw";
-  document.body.appendChild(heart);
-
-  setTimeout(() => heart.remove(), 6000);
-}, 350);
-</script>
-
-<!-- контент -->
 <div class="container">
   <div class="card">
 
@@ -156,19 +119,29 @@ setInterval(() => {
   </div>
 </div>
 
-<!-- музыка -->
-<audio autoplay loop>
-  <source src="brent.mp3" type="audio/mpeg">
-</audio>
-
 <script>
 function sendAnswer() {
   const date = document.getElementById("date").value;
   const time = document.getElementById("time").value;
 
+  const text =
+    "💗 Новая заявка\n\n" +
+    "📅 Дата: " + date + "\n" +
+    "⏰ Время: " + time + "\n\n" +
+    "бейбигерл, буду ждать вас 🤍";
+
+  fetch("https://api.telegram.org/bot7949849167:AAHXQGrqZsH2QJvMWroHpk5_SZnhWXeK6TQsendMessage", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      chat_id: 610311783,
+      text: text
+    })
+  });
+
   document.getElementById("result").innerHTML =
-    "💗 Она выбрала: " + date + " число<br>" +
-    "⏰ Время: " + time + "<br><br>" +
     "бейбигерл, буду ждать вас 🤍";
 }
 </script>
