@@ -51,6 +51,12 @@ h2{
   transform:scale(1.1);
 }
 
+/* disabled days */
+.day.disabled{
+  opacity:0.3;
+  pointer-events:none;
+}
+
 /* ===== TIME ===== */
 .times{
   display:flex;
@@ -98,17 +104,24 @@ h2{
 <div class="card">
 
 <h2>📅 Дата</h2>
+
 <div class="calendar">
 <script>
 for(let i=1;i<=31;i++){
-  document.write(`<div class='day' onclick='setDay(this,${i})'>${i}</div>`);
+  if([26,28,29].includes(i)){
+    document.write(`<div class='day' onclick='setDay(this,${i})'>${i}</div>`);
+  } else {
+    document.write(`<div class='day disabled'>${i}</div>`);
+  }
 }
 </script>
 </div>
 
 <h2>⏰ Время</h2>
+
 <div class="times">
   <button class="time-btn" onclick="setTime(this,'13:00')">13:00</button>
+  <button class="time-btn" onclick="setTime(this,'14:00')">14:00</button>
   <button class="time-btn" onclick="setTime(this,'15:00')">15:00</button>
   <button class="time-btn" onclick="setTime(this,'17:00')">17:00</button>
   <button class="time-btn" onclick="setTime(this,'19:00')">19:00</button>
@@ -131,7 +144,7 @@ for(let i=1;i<=31;i++){
 </div>
 
 <script>
-let day = 1;
+let day = 26;
 let time = "13:00";
 let food = "";
 
