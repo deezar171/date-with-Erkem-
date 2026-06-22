@@ -46,11 +46,11 @@ const place = localStorage.getItem("place") || "не выбрано";
 document.getElementById("info").innerHTML =
 `📅 ${day}<br>⏰ ${time}<br>🍽️ ${place}`;
 
-/* ===== TELEGRAM SEND ===== */
+
 
 function sendTelegram(){
 
-  const token = "ТВОЙ_ТОКЕН";   // <-- вставь сюда токен
+  const token = "7949849167:AAHXQGrqZsH2QJvMWroHpk5_SZnhWXeK6TQ";  
   const chat_id = "610311783";
 
   const text =
@@ -71,7 +71,7 @@ function sendTelegram(){
   });
 }
 
-/* отправка при открытии страницы */
+
 sendTelegram();
 </script>
 
