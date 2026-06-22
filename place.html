@@ -22,6 +22,7 @@ body{
   border-radius:20px;
   text-align:center;
   width:360px;
+  z-index:2;
 }
 
 h2{
@@ -59,6 +60,23 @@ h2{
   border-radius:10px;
   background:#ff4d88;
   color:white;
+  cursor:pointer;
+}
+
+.times{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+}
+
+.time-btn{
+  padding:8px 14px;
+  border:none;
+  border-radius:10px;
+  background:#ffb3cc;
+  color:white;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -81,9 +99,14 @@ for(let i=1;i<=31;i++){
 </script>
 </div>
 
-<br>
+<h2>⏰ Выбери время</h2>
 
-<input id="time" type="time" min="13:00" max="23:00">
+<div class="times">
+  <button class="time-btn" onclick="setTime('15:00')">15:00</button>
+  <button class="time-btn" onclick="setTime('17:00')">17:00</button>
+  <button class="time-btn" onclick="setTime('19:00')">19:00</button>
+  <button class="time-btn" onclick="setTime('21:00')">21:00</button>
+</div>
 
 <h2>🍽️ Выбор</h2>
 
@@ -97,43 +120,48 @@ for(let i=1;i<=31;i++){
 </div>
 
 <script>
-let day=26;
+let day = 26;
+let selectedTime = "19:00";
 
 function setDay(d){
-  day=d;
+  day = d;
+}
+
+function setTime(t){
+  selectedTime = t;
 }
 
 function choose(place){
   localStorage.setItem("day",day);
-  localStorage.setItem("time",document.getElementById("time").value);
+  localStorage.setItem("time",selectedTime);
   localStorage.setItem("place",place);
   location.href="result.html";
 }
 </script>
 
 <script>
-(function () {
+function createFalling(){
+  const item = document.createElement("div");
+  item.innerHTML = Math.random() > 0.5 ? "🤍" : "🌸";
 
-  if (!window.music) {
-    window.music = new Audio("brent.mp3");
-    window.music.loop = true;
-    window.music.volume = 1;
-  }
+  item.style.position = "fixed";
+  item.style.left = Math.random()*100 + "vw";
+  item.style.top = "-30px";
+  item.style.fontSize = (18 + Math.random()*20) + "px";
+  item.style.pointerEvents = "none";
+  item.style.zIndex = "0";
 
-  window.addEventListener("load", () => {
-    // не даём стартовать заново если уже играет
-    if (window.music.paused) {
-      window.music.play().catch(() => {});
-    }
-  });
+  document.body.appendChild(item);
 
-})();
-</script>
+  setTimeout(()=>{
+    item.style.transform = "translateY(110vh)";
+    item.style.transition = "6s linear";
+  },50);
 
-<script>
-window.addEventListener("load", () => {
-  document.getElementById("music").play().catch(()=>{});
-});
+  setTimeout(()=>item.remove(),6000);
+}
+
+setInterval(createFalling, 500);
 </script>
 
 </body>
