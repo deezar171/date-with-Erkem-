@@ -9,7 +9,6 @@ body{
   margin:0;
   font-family:Arial;
   background:linear-gradient(135deg,#ffd6e8,#ffeaf3);
-  overflow:hidden;
 }
 
 .card{
@@ -24,17 +23,12 @@ body{
   width:380px;
 }
 
-/* ===== TITLES ===== */
-h2{
-  font-size:20px;
-  margin:10px 0;
-}
-
 /* ===== DATE ===== */
 .calendar{
   display:grid;
   grid-template-columns:repeat(7,1fr);
   gap:6px;
+  margin-top:10px;
 }
 
 .day{
@@ -52,20 +46,20 @@ h2{
 }
 
 .day.disabled{
-  opacity:0.3;
+  opacity:0.25;
   pointer-events:none;
 }
 
-/* ===== TIME ICONS ===== */
-.times{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:6px;
+/* ===== TIME GRID ===== */
+.time-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:10px;
 }
 
 .time-btn{
-  padding:8px 10px;
+  padding:10px;
   border:none;
   border-radius:10px;
   background:#ffb3cc;
@@ -76,7 +70,7 @@ h2{
 
 .time-btn.active{
   background:#ff4d88;
-  transform:scale(1.15);
+  transform:scale(1.1);
 }
 
 /* ===== FOOD ===== */
@@ -107,7 +101,7 @@ h2{
 <div class="calendar">
 <script>
 for(let i=1;i<=31;i++){
-  if([26,27,28,29].includes(i)){
+  if([26,28,29].includes(i)){
     document.write(`<div class="day" onclick="setDay(this,${i})">${i}</div>`);
   } else {
     document.write(`<div class="day disabled">${i}</div>`);
@@ -118,11 +112,11 @@ for(let i=1;i<=31;i++){
 
 <h2>⏰ Время</h2>
 
-<div class="times">
+<div class="time-grid">
 <script>
-for(let t=13;t<=22;t++){
-  let time = t + ":00";
-  document.write(`<button class="time-btn" onclick="setTime(this,'${time}')">${time}</button>`);
+for(let h=13; h<=22; h++){
+  let t = h + ":00";
+  document.write(`<button class="time-btn" onclick="setTime(this,'${t}')">${t}</button>`);
 }
 </script>
 </div>
@@ -146,34 +140,21 @@ let day = 26;
 let time = "13:00";
 let food = "";
 
-/* ===== MUSIC (GLOBAL STYLE FIX) ===== */
-if(!window.music){
-  window.music = new Audio("brent.mp3");
-  window.music.loop = true;
-  window.music.volume = 1;
-
-  // ПЫТАЕМСЯ СРАЗУ ИГРАТЬ
-  window.music.play().catch(()=>{});
-}
-
-/* fallback — если браузер блокнул */
-document.addEventListener("click", () => {
-  window.music.play().catch(()=>{});
-}, { once:true });
-
-/* ===== SELECT ===== */
+/* ===== SELECT DAY ===== */
 function setDay(el,d){
   day = d;
   document.querySelectorAll(".day").forEach(x=>x.classList.remove("active"));
   el.classList.add("active");
 }
 
+/* ===== SELECT TIME ===== */
 function setTime(el,t){
   time = t;
   document.querySelectorAll(".time-btn").forEach(x=>x.classList.remove("active"));
   el.classList.add("active");
 }
 
+/* ===== SELECT FOOD ===== */
 function setFood(el,f){
   food = f;
   document.querySelectorAll(".food").forEach(x=>x.classList.remove("active"));
