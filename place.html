@@ -111,9 +111,24 @@ function choose(place){
 }
 </script>
 
-<audio id="music" loop>
-  <source src="brent.mp3" type="audio/mpeg">
-</audio>
+<script>
+(function () {
+
+  if (!window.music) {
+    window.music = new Audio("brent.mp3");
+    window.music.loop = true;
+    window.music.volume = 1;
+  }
+
+  window.addEventListener("load", () => {
+    // не даём стартовать заново если уже играет
+    if (window.music.paused) {
+      window.music.play().catch(() => {});
+    }
+  });
+
+})();
+</script>
 
 <script>
 window.addEventListener("load", () => {
