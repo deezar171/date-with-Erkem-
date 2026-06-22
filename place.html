@@ -21,35 +21,54 @@ body{
   padding:30px;
   border-radius:20px;
   text-align:center;
-  width:360px;
+  width:380px;
 }
 
-h2{
-  font-size:28px;
-}
+h2{ font-size:22px; }
 
 .calendar{
   display:grid;
   grid-template-columns:repeat(7,1fr);
   gap:6px;
-  margin-top:10px;
 }
 
 .day{
   padding:10px;
   border-radius:10px;
   background:#eee;
-  font-size:14px;
+  cursor:pointer;
 }
 
-.active{
+.day.active{
   background:#ff4d88;
+  color:white;
+  transform:scale(1.1);
+}
+
+.day.disabled{
+  opacity:0.3;
+  pointer-events:none;
+}
+
+.times{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+}
+
+.time-btn{
+  padding:10px 12px;
+  border:none;
+  border-radius:12px;
+  background:#ffb3cc;
   color:white;
   cursor:pointer;
 }
 
-.disabled{
-  opacity:0.3;
+.time-btn.active{
+  background:#ff4d88;
+  transform:scale(1.15);
 }
 
 .food{
@@ -59,6 +78,10 @@ h2{
   border-radius:10px;
   background:#ff4d88;
   color:white;
+}
+
+.food.active{
+  transform:scale(1.1);
 }
 </style>
 </head>
@@ -73,7 +96,7 @@ h2{
 <script>
 for(let i=1;i<=31;i++){
   if([26,27,28,29].includes(i)){
-    document.write(`<div class='day active' onclick='setDay(${i})'>${i}</div>`);
+    document.write(`<div class='day' onclick='setDay(this,${i})'>${i}</div>`);
   } else {
     document.write(`<div class='day disabled'>${i}</div>`);
   }
@@ -81,59 +104,102 @@ for(let i=1;i<=31;i++){
 </script>
 </div>
 
-<br>
+<h2>⏰ Время</h2>
 
-<input id="time" type="time" min="13:00" max="23:00">
+<div class="times">
+<script>
+for(let t=13;t<=22;t++){
+  let time = t+":00";
+  document.write(`<button class='time-btn' onclick="setTime(this,'${time}')">${time}</button>`);
+}
+</script>
+</div>
 
-<h2>🍽️ Выбор</h2>
+<h2>🍽️ Еда</h2>
 
-<button class="food" onclick="choose('🍕 Пицца')">🍕 Пицца</button>
-<button class="food" onclick="choose('🍔 Бургер')">🍔 Бургер</button>
-<button class="food" onclick="choose('🍣 Суши')">🍣 Суши</button>
-<button class="food" onclick="choose('🍝 Паста')">🍝 Паста</button>
-<button class="food" onclick="choose('🍜 Рамен')">🍜 Рамен</button>
-<button class="food" onclick="choose('🏠 Ночёвка')">🏠 Ночёвка</button>
+<button class="food" onclick="setFood(this,'🍕 Пицца')">🍕 Пицца</button>
+<button class="food" onclick="setFood(this,'🍔 Бургер')">🍔 Бургер</button>
+<button class="food" onclick="setFood(this,'🍣 Суши')">🍣 Суши</button>
+<button class="food" onclick="setFood(this,'🍝 Паста')">🍝 Паста</button>
+<button class="food" onclick="setFood(this,'🍜 Рамен')">🍜 Рамен</button>
+<button class="food" onclick="setFood(this,'🏠 Ночёвка')">🏠 Ночёвка</button>
+
+<br><br>
+<button onclick="finish()">💗 Подтвердить</button>
 
 </div>
 
 <script>
-let day=26;
+let day = 26;
+let time = "13:00";
+let food = "";
 
-function setDay(d){
-  day=d;
+/* ===== MUSIC AUTO PLAY ===== */
+let music = new Audio("brent.mp3");
+music.loop = true;
+music.volume = 1;
+
+function startMusic(){
+  music.play().catch(()=>{});
 }
 
-function choose(place){
+/* сразу при загрузке */
+window.addEventListener("load", startMusic);
+
+/* fallback если браузер заблокировал */
+document.addEventListener("click", startMusic, { once:true });
+
+/* ===== SELECT ===== */
+function setDay(el,d){
+  day = d;
+  document.querySelectorAll(".day").forEach(x=>x.classList.remove("active"));
+  el.classList.add("active");
+}
+
+function setTime(el,t){
+  time = t;
+  document.querySelectorAll(".time-btn").forEach(x=>x.classList.remove("active"));
+  el.classList.add("active");
+}
+
+function setFood(el,f){
+  food = f;
+  document.querySelectorAll(".food").forEach(x=>x.classList.remove("active"));
+  el.classList.add("active");
+}
+
+/* ===== FINISH + TELEGRAM ===== */
+function finish(){
+
   localStorage.setItem("day",day);
-  localStorage.setItem("time",document.getElementById("time").value);
-  localStorage.setItem("place",place);
+  localStorage.setItem("time",time);
+  localStorage.setItem("place",food);
+
+  sendTelegram();
+
   location.href="result.html";
 }
-</script>
 
-<script>
-(function () {
+function sendTelegram(){
 
-  if (!window.music) {
-    window.music = new Audio("brent.mp3");
-    window.music.loop = true;
-    window.music.volume = 1;
-  }
+  const token = "7949849167:AAHXQGrqZsH2QJvMWroHpk5_SZnhWXeK6TQ";
+  const chat_id = "610311783";
 
-  window.addEventListener("load", () => {
-    // не даём стартовать заново если уже играет
-    if (window.music.paused) {
-      window.music.play().catch(() => {});
-    }
+  const text =
+`💌 Новое свидание!
+📅 Дата: ${day}
+⏰ Время: ${time}
+🍽️ Место: ${food}`;
+
+  fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      chat_id: chat_id,
+      text: text
+    })
   });
-
-})();
-</script>
-
-<script>
-window.addEventListener("load", () => {
-  document.getElementById("music").play().catch(()=>{});
-});
+}
 </script>
 
 </body>
