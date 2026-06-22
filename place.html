@@ -21,20 +21,39 @@ body{
   padding:30px;
   border-radius:20px;
   text-align:center;
+  width:360px;
+}
+
+h2{
+  font-size:28px;
+}
+
+.calendar{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:6px;
+  margin-top:10px;
 }
 
 .day{
-  display:inline-block;
   padding:10px;
-  margin:5px;
+  border-radius:10px;
+  background:#eee;
+  font-size:14px;
+}
+
+.active{
   background:#ff4d88;
   color:white;
-  border-radius:10px;
   cursor:pointer;
 }
 
-button{
-  margin-top:10px;
+.disabled{
+  opacity:0.3;
+}
+
+.food{
+  margin:5px;
   padding:10px;
   border:none;
   border-radius:10px;
@@ -48,27 +67,32 @@ button{
 
 <div class="card">
 
-<h2>📅 Выбери день</h2>
+<h2>📅 Выбери дату</h2>
 
-<div>
-  <div class="day" onclick="setDay(26)">26</div>
-  <div class="day" onclick="setDay(27)">27</div>
-  <div class="day" onclick="setDay(28)">28</div>
-  <div class="day" onclick="setDay(29)">29</div>
+<div class="calendar">
+<script>
+for(let i=1;i<=31;i++){
+  if([26,27,28,29].includes(i)){
+    document.write(`<div class='day active' onclick='setDay(${i})'>${i}</div>`);
+  } else {
+    document.write(`<div class='day disabled'>${i}</div>`);
+  }
+}
+</script>
 </div>
 
 <br>
 
 <input id="time" type="time" min="13:00" max="23:00">
 
-<br><br>
+<h2>🍽️ Выбор</h2>
 
-<button onclick="finish('🍕 Пицца')">🍕 Пицца</button>
-<button onclick="finish('🍔 Бургер')">🍔 Бургер</button>
-<button onclick="finish('🍣 Суши')">🍣 Суши</button>
-<button onclick="finish('🍝 Паста')">🍝 Паста</button>
-<button onclick="finish('🍜 Рамен')">🍜 Рамен</button>
-<button onclick="finish('🏠 Ночёвка')">🏠 Ночёвка</button>
+<button class="food" onclick="choose('🍕 Пицца')">🍕 Пицца</button>
+<button class="food" onclick="choose('🍔 Бургер')">🍔 Бургер</button>
+<button class="food" onclick="choose('🍣 Суши')">🍣 Суши</button>
+<button class="food" onclick="choose('🍝 Паста')">🍝 Паста</button>
+<button class="food" onclick="choose('🍜 Рамен')">🍜 Рамен</button>
+<button class="food" onclick="choose('🏠 Ночёвка')">🏠 Ночёвка</button>
 
 </div>
 
@@ -79,7 +103,7 @@ function setDay(d){
   day=d;
 }
 
-function finish(place){
+function choose(place){
   localStorage.setItem("day",day);
   localStorage.setItem("time",document.getElementById("time").value);
   localStorage.setItem("place",place);
@@ -87,21 +111,23 @@ function finish(place){
 }
 </script>
 
-<!-- 🎵 МУЗЫКА (ИСПРАВЛЕНО) -->
 <script>
-(function () {
-
-  if (!window.__music) {
-    window.__music = new Audio("brent.mp3");
-    window.__music.loop = true;
-    window.__music.volume = 1;
+(function(){
+  if(!window.music){
+    window.music = new Audio("brent.mp3");
+    window.music.loop = true;
+    window.music.volume = 1;
   }
 
-  window.addEventListener("load", () => {
-    window.__music.play().catch(() => {});
+  window.addEventListener("load", ()=>{
+    window.music.play().catch(()=>{});
   });
-
 })();
+</script>
+<script>
+window.addEventListener("load", () => {
+  document.getElementById("music").play().catch(()=>{});
+});
 </script>
 
 </body>
