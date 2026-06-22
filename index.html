@@ -55,14 +55,6 @@ button{
 </div>
 
 <script>
-let music = new Audio("brent.mp3");
-music.loop = true;
-music.volume = 1;
-
-document.addEventListener("click", () => {
-  music.play().catch(()=>{});
-}, { once:true });
-
 function goNext(){
   location.href="place.html";
 }
