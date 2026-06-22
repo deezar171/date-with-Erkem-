@@ -6,194 +6,95 @@
 
 <style>
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #ffd6e8, #ffeaf3);
-  overflow: hidden;
+  margin:0;
+  font-family:Arial;
+  background:linear-gradient(135deg,#ffd6e8,#ffeaf3);
+  overflow:hidden;
 }
 
 .container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  text-align: center;
-  color: #ff4d88;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  color:#ff4d88;
 }
 
 .card {
-  padding: 30px;
-  background: rgba(255,255,255,0.85);
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-h1 {
-  font-size: 26px;
-  margin-bottom: 20px;
-}
-
-select, input {
-  padding: 10px;
-  margin: 10px;
-  border-radius: 12px;
-  border: none;
-  outline: none;
+  padding:30px;
+  background:rgba(255,255,255,0.85);
+  border-radius:20px;
 }
 
 button {
-  margin-top: 20px;
-  padding: 12px 25px;
-  border-radius: 20px;
-  border: none;
-  background: #ff4d88;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
+  padding:12px 25px;
+  border-radius:20px;
+  border:none;
+  background:#ff4d88;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
 }
 
-button:hover {
-  transform: scale(1.05);
+/* эффекты */
+.heart,.flower{
+  position:absolute;
+  pointer-events:none;
 }
 
-#result {
-  margin-top: 15px;
-  font-weight: bold;
-  color: #ff4d88;
+.heart{
+  color:white;
+  font-size:18px;
+  animation:float 6s linear infinite;
 }
 
-/* сердечки */
-.heart {
-  position: absolute;
-  color: white;
-  font-size: 18px;
-  animation: float 6s linear infinite;
+.flower{
+  font-size:20px;
+  animation:fall 10s linear infinite;
 }
 
-@keyframes float {
-  0% {transform: translateY(100vh); opacity: 0;}
-  20% {opacity: 1;}
-  100% {transform: translateY(-10vh); opacity: 0;}
+@keyframes float{
+  0%{transform:translateY(100vh);opacity:0;}
+  20%{opacity:1;}
+  100%{transform:translateY(-10vh);opacity:0;}
 }
 
-/* цветочки */
-.flower {
-  position: absolute;
-  font-size: 20px;
-  color: #ff69b4;
-  animation: fall 10s linear infinite;
-}
-
-@keyframes fall {
-  0% {transform: translateY(-10vh); opacity: 0;}
-  20% {opacity: 1;}
-  100% {transform: translateY(110vh); opacity: 0;}
-}
-
-audio {
-  display: none;
+@keyframes fall{
+  0%{transform:translateY(-10vh);opacity:0;}
+  20%{opacity:1;}
+  100%{transform:translateY(110vh);opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🌸 цветочки -->
-<script>
-setInterval(() => {
-  const flower = document.createElement("div");
-  flower.className = "flower";
-  flower.innerHTML = "🌸";
-  flower.style.left = Math.random() * 100 + "vw";
-  document.body.appendChild(flower);
-  setTimeout(() => flower.remove(), 10000);
-}, 400);
-</script>
-
-<!-- 🤍 сердечки -->
-<script>
-setInterval(() => {
-  const heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = "🤍";
-  heart.style.left = Math.random() * 100 + "vw";
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 6000);
-}, 350);
-</script>
-
 <div class="container">
   <div class="card">
-
-    <h1>Ты пойдёшь со мной на свидание? 💗</h1>
-
-    <select id="date">
-      <option>26</option>
-      <option>27</option>
-      <option>28</option>
-    </select>
-
-    <br>
-
-    <label>Время (13:00 – 23:00)</label><br>
-    <input id="time" type="time" min="13:00" max="23:00" value="18:00">
-
-    <br>
-
-    <button onclick="sendAnswer()">Да 💓</button>
-
-    <div id="result"></div>
-
+    <h1>Ты пойдёшь со мной? 💗</h1>
+    <button onclick="location.href='place.html'">Да 💓</button>
   </div>
 </div>
 
-<!-- 🎵 МУЗЫКА -->
-<audio id="music" loop>
-  <source src="brent.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-window.addEventListener("load", () => {
-  const music = document.getElementById("music");
-  music.play().catch(() => {});
-});
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="🤍";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},300);
 
-function sendAnswer() {
-
-  document.getElementById("music").play();
-
-  if (navigator.vibrate) {
-    navigator.vibrate([80, 50, 80, 300, 120]);
-  }
-
-  const date = document.getElementById("date").value;
-  const time = document.getElementById("time").value;
-
-  const text =
-    "💗 Новая заявка\n\n" +
-    "📅 Дата: " + date + "\n" +
-    "⏰ Время: " + time + "\n\n" +
-    "бейбигерл, буду ждать вас 🤍";
-
-  fetch("https://api.telegram.org/bot7949849167:AAHXQGrqZsH2QJvMWroHpk5_SZnhWXeK6TQ/sendMessage", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      chat_id: 610311783,
-      text: text
-    })
-  });
-
-  document.getElementById("result").innerHTML =
-    "бейбигерл, буду ждать вас 🤍";
-
-  // 💗 переход на 3 страницу
-  setTimeout(() => {
-    window.location.href = "place.html";
-  }, 1200);
-}
+setInterval(()=>{
+  const f=document.createElement("div");
+  f.className="flower";
+  f.innerHTML="🌸";
+  f.style.left=Math.random()*100+"vw";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),10000);
+},500);
 </script>
 
 </body>
