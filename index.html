@@ -90,7 +90,6 @@ button:hover {
   100% {transform: translateY(110vh); opacity: 0;}
 }
 
-/* музыка скрыта */
 audio {
   display: none;
 }
@@ -156,19 +155,11 @@ setInterval(() => {
 <script>
 window.addEventListener("load", () => {
   const music = document.getElementById("music");
-
-  const playPromise = music.play();
-
-  if (playPromise !== undefined) {
-    playPromise.catch(() => {
-      console.log("Автозапуск заблокирован браузером");
-    });
-  }
+  music.play().catch(() => {});
 });
 
 function sendAnswer() {
 
-  // 🎵 всё равно запускаем при клике (100% работает)
   document.getElementById("music").play();
 
   if (navigator.vibrate) {
@@ -197,6 +188,11 @@ function sendAnswer() {
 
   document.getElementById("result").innerHTML =
     "бейбигерл, буду ждать вас 🤍";
+
+  // 💗 переход на 3 страницу
+  setTimeout(() => {
+    window.location.href = "place.html";
+  }, 1200);
 }
 </script>
 
