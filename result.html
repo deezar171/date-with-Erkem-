@@ -45,21 +45,23 @@ document.getElementById("info").innerHTML =
 "🍽️ " + localStorage.getItem("place");
 </script>
 
-<!-- 🎵 МУЗЫКА (ИСПРАВЛЕНО) -->
 <script>
-(function () {
-
-  if (!window.__music) {
-    window.__music = new Audio("brent.mp3");
-    window.__music.loop = true;
-    window.__music.volume = 1;
+(function(){
+  if(!window.music){
+    window.music = new Audio("brent.mp3");
+    window.music.loop = true;
+    window.music.volume = 1;
   }
 
-  window.addEventListener("load", () => {
-    window.__music.play().catch(() => {});
+  window.addEventListener("load", ()=>{
+    window.music.play().catch(()=>{});
   });
-
 })();
+</script>
+<script>
+window.addEventListener("load", () => {
+  document.getElementById("music").play().catch(()=>{});
+});
 </script>
 
 </body>
