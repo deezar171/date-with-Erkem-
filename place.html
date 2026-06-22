@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Выбор</title>
+<title>Final</title>
 
 <style>
 body{
@@ -18,82 +18,15 @@ body{
   left:50%;
   transform:translate(-50%,-50%);
   background:white;
-  padding:30px;
+  padding:40px;
   border-radius:20px;
   text-align:center;
-  width:360px;
   z-index:2;
 }
 
-h2{
-  font-size:22px;
-}
-
-/* ===== DATE ===== */
-.calendar{
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:6px;
-  margin-bottom:10px;
-}
-
-.day{
-  padding:10px;
-  border-radius:10px;
-  background:#eee;
-  cursor:pointer;
-  transition:0.2s;
-}
-
-.day.active{
-  background:#ff4d88;
-  color:white;
-  transform:scale(1.1);
-}
-
-.day.disabled{
-  opacity:0.25;
-  cursor:not-allowed;
-}
-
-/* ===== TIME ===== */
-.times{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:8px;
-}
-
-.time-btn{
-  padding:10px 14px;
-  border:none;
-  border-radius:12px;
-  background:#ffb3cc;
-  color:white;
-  cursor:pointer;
-  transition:0.2s;
-}
-
-.time-btn.active{
-  background:#ff4d88;
-  transform:scale(1.15);
-}
-
-/* ===== FOOD ===== */
-.food{
-  margin:5px;
-  padding:10px;
-  border:none;
-  border-radius:10px;
-  background:#ff4d88;
-  color:white;
-  cursor:pointer;
-  transition:0.2s;
-}
-
-.food.active{
-  transform:scale(1.1);
-  box-shadow:0 0 10px rgba(255,77,136,0.5);
+h1{
+  font-size:32px;
+  color:#ff4d88;
 }
 </style>
 </head>
@@ -101,89 +34,42 @@ h2{
 <body>
 
 <div class="card">
-
-<h2>📅 Дата</h2>
-
-<div class="calendar" id="calendar"></div>
-
-<h2>⏰ Время</h2>
-
-<div class="times" id="times"></div>
-
-<h2>🍽️ Еда</h2>
-
-<button class="food" onclick="setFood(this,'🍕 Пицца')">🍕 Пицца</button>
-<button class="food" onclick="setFood(this,'🍔 Бургер')">🍔 Бургер</button>
-<button class="food" onclick="setFood(this,'🍣 Суши')">🍣 Суши</button>
-<button class="food" onclick="setFood(this,'🍝 Паста')">🍝 Паста</button>
-<button class="food" onclick="setFood(this,'🍜 Рамен')">🍜 Рамен</button>
-<button class="food" onclick="setFood(this,'🏠 Ночёвка')">🏠 Ночёвка</button>
-
-<br><br>
-<button onclick="finish()">💗 Подтвердить</button>
-
+  <h1>бейбигерл буду ждать вас 🤍</h1>
+  <p id="info"></p>
 </div>
 
 <script>
-let day = 26;
-let time = "13:00";
-let food = "";
+const day = localStorage.getItem("day") || "не выбрано";
+const time = localStorage.getItem("time") || "не выбрано";
+const place = localStorage.getItem("place") || "не выбрано";
 
-/* ===== CALENDAR SAFE BUILD ===== */
-const allowedDays = [26,28,29];
-const calendar = document.getElementById("calendar");
+document.getElementById("info").innerHTML =
+`📅 ${day}<br>⏰ ${time}<br>🍽️ ${place}`;
 
-for(let i=1;i<=31;i++){
-  const div = document.createElement("div");
-  div.textContent = i;
-  div.classList.add("day");
+/* ===== TELEGRAM SEND ===== */
 
-  if(allowedDays.includes(i)){
-    div.onclick = () => setDay(div,i);
-  } else {
-    div.classList.add("disabled");
-  }
+function sendTelegram(){
+  const token = "YOUR_BOT_TOKEN_HERE";   // <-- вставь токен
+  const chat_id = "YOUR_CHAT_ID_HERE";   // <-- вставь chat id
 
-  calendar.appendChild(div);
+  const text =
+`💌 Новое свидание!
+📅 Дата: ${day}
+⏰ Время: ${time}
+🍽️ Место: ${place}`;
+
+  fetch(`https://api.telegram.org/bot7949849167:AAHXQGrqZsH2QJvMWroHpk5_SZnhWXeK6TQ/sendMessage`, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      chat_id: chat_id,
+      text: text
+    })
+  });
 }
 
-/* ===== TIME SAFE BUILD ===== */
-const times = ["13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00"];
-const timesBox = document.getElementById("times");
-
-times.forEach(t=>{
-  const b = document.createElement("button");
-  b.textContent = t;
-  b.className = "time-btn";
-  b.onclick = () => setTime(b,t);
-  timesBox.appendChild(b);
-});
-
-/* ===== SELECT FUNCTIONS ===== */
-function setDay(el,d){
-  day = d;
-  document.querySelectorAll(".day").forEach(x=>x.classList.remove("active"));
-  el.classList.add("active");
-}
-
-function setTime(el,t){
-  time = t;
-  document.querySelectorAll(".time-btn").forEach(x=>x.classList.remove("active"));
-  el.classList.add("active");
-}
-
-function setFood(el,f){
-  food = f;
-  document.querySelectorAll(".food").forEach(x=>x.classList.remove("active"));
-  el.classList.add("active");
-}
-
-function finish(){
-  localStorage.setItem("day",day);
-  localStorage.setItem("time",time);
-  localStorage.setItem("place",food);
-  location.href="result.html";
-}
+/* отправка при загрузке страницы */
+sendTelegram();
 </script>
 
 </body>
