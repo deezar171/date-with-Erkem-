@@ -21,6 +21,7 @@ body{
   padding:40px;
   border-radius:20px;
   text-align:center;
+  z-index:2;
 }
 
 h1{
@@ -33,41 +34,42 @@ h1{
 <body>
 
 <div class="card">
-  <h1> бейбигерл буду ждать вас 🤍</h1>
-
+  <h1>бейбигерл буду ждать вас 🤍</h1>
   <p id="info"></p>
 </div>
 
 <script>
+const day = localStorage.getItem("day") || "не выбрано";
+const time = localStorage.getItem("time") || "не выбрано";
+const place = localStorage.getItem("place") || "не выбрано";
+
 document.getElementById("info").innerHTML =
-"📅 " + localStorage.getItem("day") + "<br>" +
-"⏰ " + localStorage.getItem("time") + "<br>" +
-"🍽️ " + localStorage.getItem("place");
+`📅 ${day}<br>⏰ ${time}<br>🍽️ ${place}`;
 </script>
 
 <script>
-(function () {
+function createFalling(){
+  const item = document.createElement("div");
+  item.innerHTML = Math.random() > 0.5 ? "🤍" : "🌸";
 
-  if (!window.music) {
-    window.music = new Audio("brent.mp3");
-    window.music.loop = true;
-    window.music.volume = 1;
-  }
+  item.style.position = "fixed";
+  item.style.left = Math.random()*100 + "vw";
+  item.style.top = "-30px";
+  item.style.fontSize = (18 + Math.random()*20) + "px";
+  item.style.pointerEvents = "none";
+  item.style.zIndex = "0";
 
-  window.addEventListener("load", () => {
-    // не даём стартовать заново если уже играет
-    if (window.music.paused) {
-      window.music.play().catch(() => {});
-    }
-  });
+  document.body.appendChild(item);
 
-})();
-</script>
+  setTimeout(()=>{
+    item.style.transform = "translateY(110vh)";
+    item.style.transition = "6s linear";
+  },50);
 
-<script>
-window.addEventListener("load", () => {
-  document.getElementById("music").play().catch(()=>{});
-});
+  setTimeout(()=>item.remove(),6000);
+}
+
+setInterval(createFalling, 500);
 </script>
 
 </body>
