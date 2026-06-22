@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>Love App</title>
+<title>Invitation</title>
 
 <style>
 body{
@@ -12,202 +12,71 @@ body{
   overflow:hidden;
 }
 
-/* экраны */
-.screen{
-  display:none;
+.container{
   position:absolute;
-  width:100%;
-  height:100%;
-  justify-content:center;
-  align-items:center;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
   text-align:center;
 }
 
-.active{
-  display:flex;
-}
-
-/* карточки */
 .card{
+  padding:40px;
   background:rgba(255,255,255,0.9);
-  padding:30px;
   border-radius:20px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* текст */
 h1{
-  font-size:32px;
+  font-size:34px;
   color:#ff4d88;
 }
 
-/* кнопки */
 button{
-  padding:15px 30px;
+  padding:15px 35px;
+  font-size:18px;
   border:none;
-  border-radius:20px;
+  border-radius:25px;
   background:#ff4d88;
   color:white;
-  font-size:16px;
-}
-
-/* еда */
-.foods button{
-  margin:5px;
-}
-
-/* календарь */
-.day{
-  display:inline-block;
-  margin:5px;
-  padding:10px;
-  background:#ff4d88;
-  color:white;
-  border-radius:10px;
   cursor:pointer;
-}
-
-/* эффекты */
-.heart,.flower{
-  position:absolute;
-  pointer-events:none;
-}
-
-.heart{
-  color:white;
-  animation:float 6s linear infinite;
-}
-
-.flower{
-  animation:fall 10s linear infinite;
-}
-
-@keyframes float{
-  0%{transform:translateY(100vh);opacity:0;}
-  20%{opacity:1;}
-  100%{transform:translateY(-10vh);opacity:0;}
-}
-
-@keyframes fall{
-  0%{transform:translateY(-10vh);opacity:0;}
-  20%{opacity:1;}
-  100%{transform:translateY(110vh);opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- 💗 SCREEN 1 -->
-<div id="s1" class="screen active">
+<div class="container">
   <div class="card">
     <h1>💗 Ты пойдёшь со мной на свидание?</h1>
-    <button onclick="go(2)">ДА 💓</button>
+    <button onclick="location.href='place.html'">ДА 💓</button>
   </div>
 </div>
 
-<!-- 📅 SCREEN 2 -->
-<div id="s2" class="screen">
-  <div class="card">
-    <h2>📅 Выбери день</h2>
-
-    <div>
-      <div class="day" onclick="setDay(26)">26</div>
-      <div class="day" onclick="setDay(27)">27</div>
-      <div class="day" onclick="setDay(28)">28</div>
-      <div class="day" onclick="setDay(29)">29</div>
-    </div>
-
-    <br>
-
-    <input id="time" type="time" min="13:00" max="23:00">
-
-    <br><br>
-
-    <button onclick="go(3)">Дальше ➜</button>
-  </div>
-</div>
-
-<!-- 🍽 SCREEN 3 -->
-<div id="s3" class="screen">
-  <div class="card">
-    <h2>🍽️ Куда пойдём</h2>
-
-    <div class="foods">
-      <button onclick="finish('🍕 Пицца')">🍕 Пицца</button>
-      <button onclick="finish('🍔 Бургер')">🍔 Бургер</button>
-      <button onclick="finish('🍣 Суши')">🍣 Суши</button>
-      <button onclick="finish('🍝 Паста')">🍝 Паста</button>
-      <button onclick="finish('🍜 Рамен')">🍜 Рамен</button>
-      <button onclick="finish('🚶 Прогулка')">🚶 Прогулка</button>
-      <button onclick="finish('🏠 Ночёвка')">🏠 Ночёвка</button>
-    </div>
-  </div>
-</div>
-
-<!-- 💌 SCREEN 4 -->
-<div id="s4" class="screen">
-  <div class="card">
-    <h1>💗 бейбигерл буду ждать вас 🤍</h1>
-    <p id="result"></p>
-  </div>
-</div>
-
-<!-- 🎵 МУЗЫКА (НЕ СБРАСЫВАЕТСЯ) -->
+<!-- 🎵 МУЗЫКА (ИСПРАВЛЕНО) -->
 <script>
-let music = new Audio("brent.mp3");
-music.loop = true;
+(function () {
 
-window.addEventListener("load", ()=>{
-  music.play().catch(()=>{});
-});
-</script>
+  if (!window.__music) {
+    window.__music = new Audio("brent.mp3");
+    window.__music.loop = true;
+    window.__music.volume = 1;
+  }
 
-<!-- 🌸🤍 эффекты -->
-<script>
-setInterval(()=>{
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="🤍";
-  h.style.left=Math.random()*100+"vw";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),6000);
-},300);
+  const music = window.__music;
 
-setInterval(()=>{
-  const f=document.createElement("div");
-  f.className="flower";
-  f.innerHTML="🌸";
-  f.style.left=Math.random()*100+"vw";
-  document.body.appendChild(f);
-  setTimeout(()=>f.remove(),10000);
-},500);
-</script>
+  window.addEventListener("load", () => {
+    const saved = localStorage.getItem("music_started");
 
-<!-- ⚙️ ЛОГИКА -->
-<script>
-let day=26;
-let time="";
-let place="";
+    if (!saved) {
+      music.play().then(() => {
+        localStorage.setItem("music_started", "1");
+      }).catch(() => {});
+    } else {
+      music.play().catch(() => {});
+    }
+  });
 
-function go(n){
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-  document.getElementById("s"+n).classList.add("active");
-}
-
-function setDay(d){
-  day=d;
-}
-
-function finish(p){
-  time=document.getElementById("time").value;
-  place=p;
-
-  document.getElementById("result").innerHTML =
-  "📅 "+day+"<br>⏰ "+time+"<br>🍽️ "+place;
-
-  go(4);
-}
+})();
 </script>
 
 </body>
