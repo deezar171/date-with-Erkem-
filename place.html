@@ -117,6 +117,9 @@ body{
 
 <body>
 
+<!-- 🎵 MUSIC (ДОБАВЛЕНО) -->
+<audio id="bgmusic" src="brent.mp3" loop></audio>
+
 <div class="card">
 
 <h2>📅 Дата</h2>
@@ -166,6 +169,17 @@ for(let h=13; h<=22; h++){
 let day = 26;
 let time = "13:00";
 let food = "";
+
+/* ===== MUSIC START ===== */
+window.addEventListener("load", () => {
+  const music = document.getElementById("bgmusic");
+  music.volume = 1;
+  music.play().catch(()=>{});
+
+  document.addEventListener("click", () => {
+    music.play().catch(()=>{});
+  }, { once:true });
+});
 
 /* ===== SELECT FUNCTIONS ===== */
 function setDay(el,d){
