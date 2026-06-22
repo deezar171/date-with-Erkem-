@@ -9,6 +9,7 @@ body{
   margin:0;
   font-family:Arial;
   background:linear-gradient(135deg,#ffd6e8,#ffeaf3);
+  overflow:hidden;
 }
 
 .card{
@@ -21,6 +22,7 @@ body{
   border-radius:20px;
   text-align:center;
   width:380px;
+  z-index:2;
 }
 
 /* ===== DATE ===== */
@@ -89,6 +91,27 @@ body{
   transform:scale(1.1);
   box-shadow:0 0 10px rgba(255,77,136,0.5);
 }
+
+/* ===== FALLING EFFECT ===== */
+.fall{
+  position:fixed;
+  top:-10px;
+  font-size:22px;
+  animation: fall linear infinite;
+  pointer-events:none;
+  z-index:1;
+}
+
+@keyframes fall{
+  0%{
+    transform:translateY(-10vh) rotate(0deg);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(110vh) rotate(360deg);
+    opacity:0;
+  }
+}
 </style>
 </head>
 
@@ -144,21 +167,19 @@ let day = 26;
 let time = "13:00";
 let food = "";
 
-/* ===== SELECT DAY ===== */
+/* ===== SELECT FUNCTIONS ===== */
 function setDay(el,d){
   day = d;
   document.querySelectorAll(".day").forEach(x=>x.classList.remove("active"));
   el.classList.add("active");
 }
 
-/* ===== SELECT TIME ===== */
 function setTime(el,t){
   time = t;
   document.querySelectorAll(".time-btn").forEach(x=>x.classList.remove("active"));
   el.classList.add("active");
 }
 
-/* ===== SELECT FOOD ===== */
 function setFood(el,f){
   food = f;
   document.querySelectorAll(".food").forEach(x=>x.classList.remove("active"));
@@ -172,6 +193,25 @@ function finish(){
   localStorage.setItem("place",food);
   location.href="result.html";
 }
+
+/* ===== FALLING HEARTS + FLOWERS ===== */
+function createFall(){
+  const el = document.createElement("div");
+  el.classList.add("fall");
+
+  const items = ["🤍","🌸","🤍","🌸","💮"];
+  el.innerText = items[Math.floor(Math.random()*items.length)];
+
+  el.style.left = Math.random()*100 + "vw";
+  el.style.animationDuration = (3 + Math.random()*4) + "s";
+  el.style.fontSize = (16 + Math.random()*18) + "px";
+
+  document.body.appendChild(el);
+
+  setTimeout(()=>el.remove(), 8000);
+}
+
+setInterval(createFall, 200);
 </script>
 
 </body>
