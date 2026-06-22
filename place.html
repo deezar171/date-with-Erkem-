@@ -103,7 +103,11 @@ body{
 for(let i=1;i<=31;i++){
   if([26,28,29].includes(i)){
     document.write(`<div class="day" onclick="setDay(this,${i})">${i}</div>`);
-  } else {
+  } 
+  else if(i === 27){
+    document.write(`<div class="day disabled" title="Занято">${i}</div>`);
+  }
+  else {
     document.write(`<div class="day disabled">${i}</div>`);
   }
 }
