@@ -12,6 +12,7 @@ body{
   overflow:hidden;
 }
 
+/* контейнер */
 .card{
   position:absolute;
   top:50%;
@@ -21,28 +22,74 @@ body{
   padding:25px;
   border-radius:20px;
   text-align:center;
+  width:340px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
 
-.day{
-  display:inline-block;
+/* 📅 даты */
+.days {
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:10px;
+}
+
+.day {
+  background:white;
   padding:10px;
-  margin:5px;
-  background:#ff4d88;
-  color:white;
-  border-radius:10px;
+  border-radius:15px;
+  width:70px;
   cursor:pointer;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  transition:0.3s;
 }
 
-button{
-  margin:5px;
+.day:hover {
+  transform:scale(1.05);
+}
+
+.big {
+  font-size:22px;
+  font-weight:bold;
+  color:#ff4d88;
+}
+
+.small {
+  font-size:12px;
+  color:gray;
+}
+
+/* 🍽️ еда */
+.foods {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:10px;
+}
+
+.food {
+  background:white;
   padding:10px;
-  border-radius:10px;
-  border:none;
-  background:#ff4d88;
-  color:white;
+  border-radius:15px;
+  cursor:pointer;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  transition:0.3s;
 }
 
-/* эффекты */
+.food:hover {
+  transform:scale(1.05);
+}
+
+.icon {
+  font-size:24px;
+}
+
+.text {
+  font-size:12px;
+  color:#ff4d88;
+}
+
+/* 🌸🤍 эффекты */
 .heart,.flower{
   position:absolute;
   pointer-events:none;
@@ -70,39 +117,93 @@ button{
   20%{opacity:1;}
   100%{transform:translateY(110vh);opacity:0;}
 }
+
+input{
+  margin-top:10px;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  background:#f5f5f5;
+}
 </style>
 </head>
 
 <body>
 
 <div class="card">
-  <h2>Дата 📅</h2>
 
-  <div>
-    <div class="day" onclick="setDay(26)">26</div>
-    <div class="day" onclick="setDay(27)">27</div>
-    <div class="day" onclick="setDay(28)">28</div>
+<h2>📅 Выбери день</h2>
+
+<div class="days">
+  <div class="day" onclick="setDay(26)">
+    <div class="big">26</div>
+    <div class="small">Июнь</div>
   </div>
 
-  <br>
+  <div class="day" onclick="setDay(27)">
+    <div class="big">27</div>
+    <div class="small">Июнь</div>
+  </div>
 
-  <input id="time" type="time" min="13:00" max="23:00">
+  <div class="day" onclick="setDay(28)">
+    <div class="big">28</div>
+    <div class="small">Июнь</div>
+  </div>
+</div>
 
-  <h3>Еда 🍽️</h3>
+<br>
 
-  <button onclick="choose('🍕 Пицца')">🍕</button>
-  <button onclick="choose('🍔 Бургер')">🍔</button>
-  <button onclick="choose('🍣 Суши')">🍣</button>
-  <button onclick="choose('🍝 Паста')">🍝</button>
-  <button onclick="choose('🚶 Прогулка')">🚶</button>
-  <button onclick="choose('🍜 Рамен')">🍜</button>
-  <button onclick="choose('🏠 Ночёвка')">🏠</button>
+<input id="time" type="time" min="13:00" max="23:00">
+
+<h3>🍽️ Куда пойдём</h3>
+
+<div class="foods">
+
+  <div class="food" onclick="choose('🍕 Пицца')">
+    <div class="icon">🍕</div>
+    <div class="text">Пицца</div>
+  </div>
+
+  <div class="food" onclick="choose('🍔 Бургер')">
+    <div class="icon">🍔</div>
+    <div class="text">Бургер</div>
+  </div>
+
+  <div class="food" onclick="choose('🍣 Суши')">
+    <div class="icon">🍣</div>
+    <div class="text">Суши</div>
+  </div>
+
+  <div class="food" onclick="choose('🍝 Паста')">
+    <div class="icon">🍝</div>
+    <div class="text">Паста</div>
+  </div>
+
+  <div class="food" onclick="choose('🚶 Прогулка')">
+    <div class="icon">🚶</div>
+    <div class="text">Прогулка</div>
+  </div>
+
+  <div class="food" onclick="choose('🍜 Рамен')">
+    <div class="icon">🍜</div>
+    <div class="text">Рамен</div>
+  </div>
+
+  <div class="food" onclick="choose('🏠 Ночёвка')">
+    <div class="icon">🏠</div>
+    <div class="text">Ночёвка</div>
+  </div>
+
+</div>
+
 </div>
 
 <script>
 let day=26;
 
-function setDay(d){day=d;}
+function setDay(d){
+  day=d;
+}
 
 function choose(place){
   localStorage.setItem("day",day);
@@ -111,7 +212,7 @@ function choose(place){
   location.href="result.html";
 }
 
-/* эффекты */
+/* 🌸🤍 эффекты */
 setInterval(()=>{
   const h=document.createElement("div");
   h.className="heart";
