@@ -33,7 +33,7 @@ h1{
 <body>
 
 <div class="card">
-  <h1>💗 бейбигерл буду ждать вас 🤍</h1>
+  <h1> бейбигерл буду ждать вас 🤍</h1>
 
   <p id="info"></p>
 </div>
@@ -45,14 +45,21 @@ document.getElementById("info").innerHTML =
 "🍽️ " + localStorage.getItem("place");
 </script>
 
-<audio id="music" loop>
-  <source src="brent.mp3" type="audio/mpeg">
-</audio>
-
+<!-- 🎵 МУЗЫКА (ИСПРАВЛЕНО) -->
 <script>
-window.addEventListener("load", () => {
-  document.getElementById("music").play().catch(()=>{});
-});
+(function () {
+
+  if (!window.__music) {
+    window.__music = new Audio("brent.mp3");
+    window.__music.loop = true;
+    window.__music.volume = 1;
+  }
+
+  window.addEventListener("load", () => {
+    window.__music.play().catch(() => {});
+  });
+
+})();
 </script>
 
 </body>
