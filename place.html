@@ -26,8 +26,7 @@ body{
 }
 
 h2{
-  font-size:24px;
-  margin-top:10px;
+  font-size:22px;
 }
 
 /* ===== DATE ===== */
@@ -51,10 +50,10 @@ h2{
   transform:scale(1.1);
 }
 
-/* disabled days */
+/* ❌ disabled but visible */
 .day.disabled{
-  opacity:0.3;
-  pointer-events:none;
+  opacity:0.25;
+  cursor:not-allowed;
 }
 
 /* ===== TIME ===== */
@@ -89,93 +88,4 @@ h2{
   background:#ff4d88;
   color:white;
   cursor:pointer;
-  transition:0.2s;
-}
-
-.food.active{
-  transform:scale(1.1);
-  box-shadow:0 0 10px rgba(255,77,136,0.5);
-}
-</style>
-</head>
-
-<body>
-
-<div class="card">
-
-<h2>📅 Дата</h2>
-
-<div class="calendar">
-<script>
-for(let i=1;i<=31;i++){
-  if([26,28,29].includes(i)){
-    document.write(`<div class='day' onclick='setDay(this,${i})'>${i}</div>`);
-  } else {
-    document.write(`<div class='day disabled'>${i}</div>`);
-  }
-}
-</script>
-</div>
-
-<h2>⏰ Время</h2>
-
-<div class="times">
-  <button class="time-btn" onclick="setTime(this,'13:00')">13:00</button>
-  <button class="time-btn" onclick="setTime(this,'14:00')">14:00</button>
-  <button class="time-btn" onclick="setTime(this,'15:00')">15:00</button>
-  <button class="time-btn" onclick="setTime(this,'17:00')">17:00</button>
-  <button class="time-btn" onclick="setTime(this,'19:00')">19:00</button>
-  <button class="time-btn" onclick="setTime(this,'21:00')">21:00</button>
-  <button class="time-btn" onclick="setTime(this,'22:00')">22:00</button>
-</div>
-
-<h2>🍽️ Еда</h2>
-
-<button class="food" onclick="setFood(this,'🍕 Пицца')">🍕 Пицца</button>
-<button class="food" onclick="setFood(this,'🍔 Бургер')">🍔 Бургер</button>
-<button class="food" onclick="setFood(this,'🍣 Суши')">🍣 Суши</button>
-<button class="food" onclick="setFood(this,'🍝 Паста')">🍝 Паста</button>
-<button class="food" onclick="setFood(this,'🍜 Рамен')">🍜 Рамен</button>
-<button class="food" onclick="setFood(this,'🏠 Ночёвка')">🏠 Ночёвка</button>
-
-<br><br>
-<button onclick="finish()">💗 Подтвердить</button>
-
-</div>
-
-<script>
-let day = 26;
-let time = "13:00";
-let food = "";
-
-function setDay(el, d){
-  day = d;
-
-  document.querySelectorAll(".day").forEach(x=>x.classList.remove("active"));
-  el.classList.add("active");
-}
-
-function setTime(el, t){
-  time = t;
-
-  document.querySelectorAll(".time-btn").forEach(x=>x.classList.remove("active"));
-  el.classList.add("active");
-}
-
-function setFood(el, f){
-  food = f;
-
-  document.querySelectorAll(".food").forEach(x=>x.classList.remove("active"));
-  el.classList.add("active");
-}
-
-function finish(){
-  localStorage.setItem("day",day);
-  localStorage.setItem("time",time);
-  localStorage.setItem("place",food);
-  location.href="result.html";
-}
-</script>
-
-</body>
-</html>
+  transition:0.2
