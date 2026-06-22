@@ -53,19 +53,10 @@ button{
   </div>
 </div>
 
-<script>
-(function(){
-  if(!window.music){
-    window.music = new Audio("brent.mp3");
-    window.music.loop = true;
-    window.music.volume = 1;
-  }
+<audio id="music" loop>
+  <source src="brent.mp3" type="audio/mpeg">
+</audio>
 
-  window.addEventListener("load", ()=>{
-    window.music.play().catch(()=>{});
-  });
-})();
-</script>
 <script>
 window.addEventListener("load", () => {
   document.getElementById("music").play().catch(()=>{});
